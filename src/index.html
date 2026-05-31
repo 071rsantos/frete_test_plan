@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Cálculo de Frete</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="titulo">📦 Cálculo de Frete</h1>
+      <p class="subtitulo">Calcule o valor do frete para sua entrega</p>
+
+      <form>
+        <div class="form-grupo">
+          <label for="valorEntrega">Valor da Entrega (R$)</label>
+          <input
+            type="number"
+            id="valorEntrega"
+            placeholder="Ex: 150,00"
+            step="0.01"
+            min="0"
+            required
+          >
+        </div>
+
+        <div class="form-grupo">
+          <label for="regiao">Região de Entrega</label>
+          <select id="regiao" required>
+            <option value="">-- Selecione uma região --</option>
+            <option value="norte">Norte</option>
+            <option value="nordeste">Nordeste</option>
+            <option value="centro-oeste">Centro-Oeste</option>
+            <option value="sudeste">Sudeste</option>
+            <option value="sul">Sul</option>
+          </select>
+        </div>
+
+        <button type="button" id="calcularBtn">Calcular Frete</button>
+      </form>
+
+      <div id="resultado"></div>
+      <div id="erro"></div>
+    </div>
+  </div>
+
+  <script src="js/frete.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

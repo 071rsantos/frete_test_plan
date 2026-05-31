@@ -1,0 +1,170 @@
+/* Estilos - Sistema de Cálculo de Frete */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 0.95em;
+}
+
+.form-grupo {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+input[type="number"],
+select {
+  padding: 12px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input[type="number"]::placeholder {
+  color: #bbb;
+}
+
+button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+#resultado {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #27ae60;
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 25px;
+  display: none;
+  line-height: 1.6;
+  color: #333;
+}
+
+#resultado strong {
+  color: #27ae60;
+}
+
+#erro {
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
+  border-left: 4px solid #e74c3c;
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 25px;
+  display: none;
+  line-height: 1.6;
+  color: #c0392b;
+}
+
+#resultado hr {
+  border: none;
+  border-top: 1px solid #bdc3c7;
+  margin: 15px 0;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .card {
+    padding: 30px;
+  }
+
+  .titulo {
+    font-size: 1.5em;
+  }
+
+  input[type="number"],
+  select,
+  button {
+    font-size: 16px; /* Evita zoom no mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+
+  .titulo {
+    font-size: 1.3em;
+  }
+
+  .subtitulo {
+    font-size: 0.85em;
+  }
+}

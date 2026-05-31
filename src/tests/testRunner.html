@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Runner - Sistema de Cálculo de Frete</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 2em;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .resultados {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .resumo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+
+    .stat-valor {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .stat-total .stat-valor {
+      color: #667eea;
+    }
+
+    .stat-aprovados .stat-valor {
+      color: #27ae60;
+    }
+
+    .stat-reprovados .stat-valor {
+      color: #e74c3c;
+    }
+
+    .stat-percentual .stat-valor {
+      color: #f39c12;
+    }
+
+    .testes-lista {
+      margin-top: 20px;
+    }
+
+    .teste-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      font-size: 0.95em;
+      border-left: 4px solid #ccc;
+    }
+
+    .teste-item.aprovado {
+      background: #f0fdf4;
+      border-left-color: #27ae60;
+      color: #166534;
+    }
+
+    .teste-item.reprovado {
+      background: #fef2f2;
+      border-left-color: #e74c3c;
+      color: #991b1b;
+    }
+
+    .teste-icone {
+      font-size: 1.2em;
+      margin-right: 12px;
+      font-weight: bold;
+    }
+
+    .teste-nome {
+      flex: 1;
+    }
+
+    .teste-mensagem {
+      margin-top: 5px;
+      padding-left: 30px;
+      font-size: 0.85em;
+      color: #e74c3c;
+      font-style: italic;
+    }
+
+    .mensagem-inicial {
+      text-align: center;
+      color: #999;
+      padding: 40px 20px;
+      font-size: 1em;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .filtro-container {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filtro-btn {
+      background: #e0e0e0;
+      color: #333;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9em;
+    }
+
+    .filtro-btn:hover {
+      background: #d0d0d0;
+    }
+
+    .filtro-btn.ativo {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.5em;
+      }
+
+      .resumo {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🧪 Test Runner</h1>
+      <p>Sistema de Cálculo de Frete - Testes Unitários</p>
+    </div>
+
+    <div class="controls">
+      <button onclick="executarTodosTestes()">▶ Executar Testes</button>
+      <button onclick="limparResultados()">🗑 Limpar Resultados</button>
+      <button onclick="baixarRelatorio()">⬇ Baixar Relatório</button>
+    </div>
+
+    <div class="resultados">
+      <div class="mensagem-inicial" id="mensagemInicial">
+        Clique em "Executar Testes" para iniciar
+      </div>
+
+      <div id="conteudoResultados" style="display: none;">
+        <div class="resumo" id="resumo"></div>
+        <div class="filtro-container" id="filtro" style="display: none;">
+          <button class="filtro-btn ativo" onclick="filtrarTestes('todos')">Todos</button>
+          <button class="filtro-btn" onclick="filtrarTestes('aprovados')">✓ Aprovados</button>
+          <button class="filtro-btn" onclick="filtrarTestes('reprovados')">✗ Reprovados</button>
+        </div>
+        <div class="testes-lista" id="testesList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts de teste -->
+  <script src="../js/frete.js"></script>
+  <script src="frete.test.js"></script>
+
+  <script>
+    let ultimosResultados = null;
+    let filtroAtual = 'todos';
+
+    function executarTodosTestes() {
+      const mensagemInicial = document.getElementById('mensagemInicial');
+      const conteudo = document.getElementById('conteudoResultados');
+
+      mensagemInicial.innerHTML = '<div class="loading">⏳ Executando testes...</div>';
+
+      // Simular pequeno delay para UX melhor
+      setTimeout(() => {
+        try {
+          ultimosResultados = runTests();
+          exibirResultados(ultimosResultados);
+        } catch (erro) {
+          mensagemInicial.innerHTML = `<div style="color: #e74c3c;">❌ Erro ao executar testes: ${erro.message}</div>`;
+        }
+      }, 500);
+    }
+
+    function exibirResultados(resultado) {
+      const mensagemInicial = document.getElementById('mensagemInicial');
+      const conteudo = document.getElementById('conteudoResultados');
+      const resumo = document.getElementById('resumo');
+      const testesList = document.getElementById('testesList');
+      const filtro = document.getElementById('filtro');
+
+      mensagemInicial.style.display = 'none';
+      conteudo.style.display = 'block';
+      filtro.style.display = 'flex';
+
+      // Montar resumo
+      const statusGeral = resultado.reprovados === 0 ? '✓ SUCESSO' : '⚠ COM FALHAS';
+      const corGeral = resultado.reprovados === 0 ? '#27ae60' : '#e74c3c';
+
+      resumo.innerHTML = `
+        <div class="stat stat-total">
+          <div class="stat-valor">${resultado.total}</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat stat-aprovados">
+          <div class="stat-valor">${resultado.aprovados}</div>
+          <div class="stat-label">Aprovados</div>
+        </div>
+        <div class="stat stat-reprovados">
+          <div class="stat-valor">${resultado.reprovados}</div>
+          <div class="stat-label">Reprovados</div>
+        </div>
+        <div class="stat stat-percentual">
+          <div class="stat-valor">${resultado.percentual}%</div>
+          <div class="stat-label">Sucesso</div>
+        </div>
+      `;
+
+      // Montar lista de testes
+      testesList.innerHTML = '';
+      resultado.testes.forEach(teste => {
+        const item = document.createElement('div');
+        item.className = `teste-item ${teste.resultado}`;
+        item.dataset.resultado = teste.resultado;
+
+        const icone = teste.resultado === 'aprovado' ? '✓' : '✗';
+        item.innerHTML = `
+          <div class="teste-icone">${icone}</div>
+          <div class="teste-nome">${teste.nome}</div>
+        `;
+
+        if (teste.mensagem) {
+          item.innerHTML += `<div class="teste-mensagem">${teste.mensagem}</div>`;
+        }
+
+        testesList.appendChild(item);
+      });
+
+      // Log nos console também
+      console.log(`\n✅ Testes completados! ${resultado.aprovados}/${resultado.total} aprovados`);
+    }
+
+    function limparResultados() {
+      document.getElementById('mensagemInicial').style.display = 'block';
+      document.getElementById('conteudoResultados').style.display = 'none';
+      document.getElementById('mensagemInicial').innerHTML = 'Clique em "Executar Testes" para iniciar';
+      ultimosResultados = null;
+      filtroAtual = 'todos';
+    }
+
+    function filtrarTestes(filtro) {
+      filtroAtual = filtro;
+
+      // Atualizar botões de filtro
+      document.querySelectorAll('.filtro-btn').forEach(btn => {
+        btn.classList.remove('ativo');
+      });
+      event.target.classList.add('ativo');
+
+      // Filtrar itens de teste
+      document.querySelectorAll('.teste-item').forEach(item => {
+        if (filtro === 'todos' || item.dataset.resultado === filtro) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function baixarRelatorio() {
+      if (!ultimosResultados) {
+        alert('Execute os testes primeiro!');
+        return;
+      }
+
+      const resultado = ultimosResultados;
+      let conteudo = 'RELATÓRIO DE TESTES - SISTEMA DE CÁLCULO DE FRETE\n';
+      conteudo += '='.repeat(60) + '\n\n';
+      conteudo += `Data: ${new Date().toLocaleString('pt-BR')}\n`;
+      conteudo += `Total de testes: ${resultado.total}\n`;
+      conteudo += `Aprovados: ${resultado.aprovados}\n`;
+      conteudo += `Reprovados: ${resultado.reprovados}\n`;
+      conteudo += `Percentual de sucesso: ${resultado.percentual}%\n`;
+      conteudo += '\n' + '='.repeat(60) + '\n\n';
+      conteudo += 'DETALHES DOS TESTES:\n\n';
+
+      resultado.testes.forEach((teste, indice) => {
+        const icone = teste.resultado === 'aprovado' ? '✓' : '✗';
+        conteudo += `${icone} ${indice + 1}. ${teste.nome}\n`;
+        if (teste.mensagem) {
+          conteudo += `   └─ ${teste.mensagem}\n`;
+        }
+        conteudo += '\n';
+      });
+
+      const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `relatorio-testes-${new Date().toISOString().split('T')[0]}.txt`;
+      link.click();
+    }
+  </script>
+</body>
+</html>

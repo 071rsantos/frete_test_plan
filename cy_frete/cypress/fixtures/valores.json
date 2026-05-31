@@ -1,0 +1,20 @@
+{
+  "negativeValue":{
+    "value": "-1.00"
+  },
+  "zeroValue":{
+    "value": "0.00"
+  },
+  "fullFreteValue":{
+    "value": "199.99"
+  },
+  "fullFreteValue2":{
+    "value": "200.00"
+  },
+  "halfFreteValue":{
+    "value": "200.01"
+  },
+  "freeFreteValue":{
+    "value": "500.00"
+  }
+}
